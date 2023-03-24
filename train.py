@@ -29,15 +29,17 @@ input_shape = (win_size, data_x.shape[1])
 
 #generating model
 model = Sequential()
-model.add(LSTM(50, activation='relu', input_shape=input_shape))
+model.add(LSTM(50, activation='relu', input_shape=input_shape, return_sequences=True))
+model.add(LSTM(25, activation='relu', return_sequences=True))
+model.add(LSTM(10, activation='relu'))
 model.add(Dense(1, activation='sigmoid'))
 all_scores, all_mse = [], []
-checkpoint = keras.callbacks.ModelCheckpoint("model.h5", monitor='val_accuracy', save_freq="epoch", save_best_only=True)
+checkpoint = keras.callbacks.ModelCheckpoint("model2.h5", monitor='val_accuracy', save_freq="epoch", save_best_only=True)
 
 model.compile(optimizer='Adamax', loss='mean_squared_error', metrics=['accuracy', ],)
 # print(data_train)
 history1 = model.fit(data_train[0], data_train[1], validation_batch_size=512, epochs=10,
-                     validation_data=data_test, batch_size=2048,
+                     validation_data=data_test, batch_size=256,
                      verbose=2, callbacks=[checkpoint])
 
 val_mse, val_mae = model.evaluate(data_train[0], data_train[1], verbose=2)
