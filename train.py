@@ -8,14 +8,12 @@ from keras.layers import LSTM, Dense
 from gen_data import *
 
 #preparing data
-data = pd.read_csv('euro_to_usd_last.csv')
-data = data.iloc[700000:, :]
-cols = ["Net Chng", "Last", "Bid", "Ask"]
+data = pd.read_csv('data1.csv')
+
 cols = ['Open', 'Low', 'High', 'Close']
 # scaler, data[cols] = preprcss_data(data[cols]) #to preserve the column indexes
 data = data[cols]
-data_x = data.drop('Net Chng', axis=1)
-data_y = data['Net Chng']
+
 data_x = data.drop('Close', axis=1)
 data_y = data['Close']
 win_size = 20
@@ -39,7 +37,7 @@ checkpoint = keras.callbacks.ModelCheckpoint("model2.h5", monitor='val_accuracy'
 
 model.compile(optimizer='Adamax', loss='mean_squared_error', metrics=['accuracy', ],)
 # print(data_train)
-history1 = model.fit(data_train[0], data_train[1], validation_batch_size=32, epochs=10,
+history1 = model.fit(data_train[0], data_train[1], validation_batch_size=32, epochs=100,
                      validation_data=data_test, batch_size=32,
                      verbose=2, callbacks=[checkpoint])
 
