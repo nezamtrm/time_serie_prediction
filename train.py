@@ -33,22 +33,26 @@ model.add(LSTM(150, return_sequences=True))
 model.add(LSTM(50,))
 model.add(Dense(1,))
 all_scores, all_mse = [], []
-checkpoint = keras.callbacks.ModelCheckpoint("model2.h5", monitor='val_accuracy', save_freq="epoch", save_best_only=True)
+
+
+#Creating a callback to save the model weights
+checkpoint = keras.callbacks.ModelCheckpoint("model_100epoch.h5", monitor='val_accuracy', save_freq="epoch", save_best_only=True)
 
 model.compile(optimizer='Adamax', loss='mean_squared_error', metrics=['accuracy', ],)
-# print(data_train)
-history1 = model.fit(data_train[0], data_train[1], validation_batch_size=32, epochs=100,
+
+#Training the model and monitoring the validation metrics
+history1 = model.fit(data_train[0], data_train[1], validation_batch_size=32, epochs=1,
                      validation_data=data_test, batch_size=32,
                      verbose=2, callbacks=[checkpoint])
-
+#Evaluating the model on validation data
 val_mse, val_mae = model.evaluate(data_train[0], data_train[1], verbose=2)
 all_scores.append(val_mae)
 all_mse.append(val_mse)
 
 print(f'val_mse:{val_mse}, val_mae:{val_mae}')
-# print(data_test[0])
 
 output = model.predict(data_test[0])
+np.save('output.npy', output)
 
 # output = scaler.inverse_transform(output)
 # data_test[1] = scaler.inverse_transform(data_test[1])
