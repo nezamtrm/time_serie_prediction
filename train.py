@@ -41,7 +41,7 @@ checkpoint = keras.callbacks.ModelCheckpoint("model_100epoch.h5", monitor='val_a
 model.compile(optimizer='Adamax', loss='mean_squared_error', metrics=['accuracy', ],)
 
 #Training the model and monitoring the validation metrics
-history1 = model.fit(data_train[0], data_train[1], validation_batch_size=32, epochs=1,
+history1 = model.fit(data_train[0], data_train[1], validation_batch_size=32, epochs=100,
                      validation_data=data_test, batch_size=32,
                      verbose=2, callbacks=[checkpoint])
 #Evaluating the model on validation data
