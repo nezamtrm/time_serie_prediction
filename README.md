@@ -1,4 +1,4 @@
-# Time_series_prediction using LSTM
+# Time_series_prediction using stacked LSTMs
 
 In this repo, the dataset of a currency pair is used by considering "Open", "Low" and "High" prices the next value of "Close" price is predicted. 
 
